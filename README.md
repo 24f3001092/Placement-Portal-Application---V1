@@ -1,220 +1,114 @@
-# PlacementHub - Placement Portal Application
+# Placement Portal
 
-## Overview
-PlacementHub is a comprehensive web-based placement portal application built for institutes to manage campus recruitment activities. It facilitates interaction between three main roles: Admin (Institute Placement Cell), Companies, and Students.
+A Flask-based web application for managing campus placement workflows between students, companies, and administrators.
+
 ## Features
-### Admin Features
-- Dashboard with statistics (students, companies, drives, applications)
-- Approve/reject company registrations
-- Approve/reject placement drives
-- Manage and blacklist students and companies
-- Search functionality for students and companies
-- View all applications and placement records
-### Company Features
-- Company registration and profile management
-- Create, edit, and delete placement drives (post-approval)
-- View student applications for their drives
-- Shortlist/select/reject applicants
-- Update application statuses
 
-### Student Features
-- Student self-registration and login
-- View and apply for approved placement drives
-- Track application status and history
-- Update profile and upload resume
-- Prevent duplicate applications
+- Multi-role authentication: Admin, Company, Student
+- Company onboarding with admin approval flow
+- Student profile management with resume upload
+- Placement drive creation, approval, and publishing
+- Student application tracking per drive
+- Company-side application status updates (Shortlisted/Selected/Rejected)
+- Admin dashboard for students, companies, drives, and applications
 
-## Technology Stack
-- **Backend**: Flask 3.0.0
-- **Frontend**: Jinja2 templates, HTML5, CSS3, Bootstrap 5
-- **Database**: SQLite3
-- **Authentication**: Flask-Login
-- **APIs**: RESTful JSON APIs using Flask-RESTful
+## Tech Stack
 
-## Installation
-### Prerequisites
-- Python 3.8 or higher
-- pip package manager
-
-### Setup Instructions
-1. Clone or extract the project to your local machine
-2. Navigate to the project directory:
-```bash
-cd placement_portal
-```
-3. Create a virtual environment (recommended):
-```bash
-python -m venv venv
-```
-4. Activate the virtual environment:
-- Windows:
-  ```bash
-  venv\Scripts\activate
-  ```
-- Linux/Mac:
-  ```bash
-  source venv/bin/activate
-  ```
-5. Install required dependencies:
-```bash
-pip install -r requirements.txt
-```
-6. Run the application:
-```bash
-python app.py
-``
-7. Open your browser and navigate to:
-```
-http://localhost:5000
-```
-## Default Admin Credentials
-- **Email**: admin@placement.com
-- **Password**: admin123
+- Python
+- Flask
+- Flask-SQLAlchemy
+- Flask-Bcrypt
+- SQLite
+- Jinja2 templates + static CSS
 
 ## Project Structure
+
+```text
+Placement_Portal/
+	placement_portal/
+		app.py
+		models.py
+		auth.py
+		admin.py
+		company.py
+		student.py
+		templates/
+		static/
+		instance/
 ```
-placement_portal/
-├── app.py                      # Main Flask application
-├── models.py                   # Database models and initialization
-├── config.py                   # Configuration settings
-├── requirements.txt            # Python dependencies
-├── placement.db               # SQLite database (auto-created)
-├── static/
-│   ├── css/
-│   │   └── style.css          # Custom styling
-│   ├── js/
-│   │   └── charts.js          # JavaScript for charts
-│   └── uploads/
-│       └── resumes/           # Uploaded resume files
-├── templates/
-│   ├── base.html              # Base template
-│   ├── auth/
-│   │   ├── login.html         # Login page
-│   │   ├── register_student.html
-│   │   └── register_company.html
-│   ├── admin/
-│   │   ├── dashboard.html     # Admin dashboard
-│   │   ├── companies.html     # Manage companies
-│   │   ├── students.html      # Manage students
-│   │   ├── drives.html        # Manage drives
-│   │   └── applications.html  # View applications
-│   ├── company/
-│   │   ├── dashboard.html     # Company dashboard
-│   │   ├── post_drive.html    # Create/edit drive
-│   │   ├── applications.html  # View applications
-│   │   └── profile.html       # Company profile
-│   └── student/
-│       ├── dashboard.html     # Student dashboard
-│       ├── drives.html        # Browse drives
-│       ├── applications.html  # Application history
-│       └── profile.html       # Student profile
-└── api/
-    ├── __init__.py
-    ├── students.py            # Student API endpoints
-    ├── companies.py           # Company API endpoints
-    └── applications.py        # Applications & Drives API
+
+## Prerequisites
+
+- Python 3.10+
+- `pip`
+
+## Installation
+
+1. Clone or open this project.
+2. Create a virtual environment.
+3. Install dependencies.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install flask flask-sqlalchemy flask-bcrypt
 ```
-## Database Schema
 
-### Tables
-1. **admin** - Admin user details
-2. **company** - Company profiles with approval status
-3. **student** - Student profiles and academic details
-4. **placement_drive** - Job postings by companies
-5. **application** - Student applications to drives
-6. **notification** - Notifications for students
+## Run the Application
 
-### Key Relationships
-- Companies → Placement Drives (One-to-Many)
-- Students → Applications (One-to-Many)
-- Placement Drives → Applications (One-to-Many)
-- Applications → Students (Many-to-One)
+From the project root:
 
-## API Endpoints
+```powershell
+python placement_portal/app.py
+```
 
-### Students API
-- `GET /api/students` - List all students
-- `GET /api/students/<id>` - Get student details
-- `POST /api/students` - Create student
-- `PUT /api/students/<id>` - Update student
-- `DELETE /api/students/<id>` - Delete student
+Then open:
 
-### Companies API
-- `GET /api/companies` - List all companies
-- `GET /api/companies/<id>` - Get company details
-- `POST /api/companies` - Create company
-- `PUT /api/companies/<id>` - Update company
-- `DELETE /api/companies/<id>` - Delete company
+- http://127.0.0.1:5000
 
-### Drives API
-- `GET /api/drives` - List active drives
-- `GET /api/drives/all` - List all drives
-- `GET /api/drives/<id>` - Get drive details
-- `PUT /api/drives/<id>` - Update drive status
-- `DELETE /api/drives/<id>` - Delete drive
+## Default Admin Login
 
-### Applications API
-- `GET /api/applications` - List all applications
-- `GET /api/applications/<id>` - Get application details
-- `POST /api/applications` - Submit application
-- `PUT /api/applications/<id>` - Update application status
-- `DELETE /api/applications/<id>` - Delete application
+On first run, the app auto-creates an admin account if none exists:
 
-## Usage Workflow
+- Email: `admin@placement.com`
+- Password: `admin123`
 
-### For Students
-1. Register using student registration form
-2. Log in with credentials
-3. Complete profile and upload resume
-4. Browse active placement drives
-5. Apply for drives with cover letter
-6. Track application status
+## User Flows
 
-### For Companies
-1. Register using company registration form
-2. Wait for admin approval
-3. Log in after approval
-4. Complete company profile
-5. Create placement drives
-6. Wait for admin approval of drives
-7. View and manage applications
-8. Shortlist/select candidates
+### Admin
 
-### For Admin
-1. Log in with admin credentials
-2. Approve/reject company registrations
-3. Approve/reject placement drives
-4. Monitor all activities
-5. Search and manage users
-6. Blacklist if necessary
+- Log in to dashboard
+- Approve/reject company registrations
+- Blacklist/unblacklist students and companies
+- Approve/reject/delete placement drives
+- Manage students, companies, and applications
 
-## Security Features
-- Password hashing using Werkzeug
-- Role-based access control
-- Login required decorators
-- CSRF protection (Flask-WTF)
-- Secure file uploads
-- SQL injection prevention
+### Company
 
-## Additional Features
-- Responsive UI with Bootstrap 5
-- Charts for statistics visualization
-- Flash messages for user feedback
-- Search functionality
-- Duplicate application prevention
-- Notification system
-- Resume file management
+- Register account (await admin approval)
+- Create and manage placement drives
+- View applications per drive
+- Update application status
+- Manage company profile
 
-## Development Notes
-- Database is created automatically on first run
-- Admin user is seeded by default
-- Debug mode is enabled in development
-- Maximum resume upload size: 5MB
-- Allowed resume formats: PDF, DOC, DOCX
-## License
-Educational project for campus placement management.
+### Student
 
-## Support
-For issues or questions, please refer to the project documentation.
+- Register account and upload resume
+- Browse approved open drives
+- Apply to drives
+- Track application statuses
+- Manage personal profile
+
+## Notes
+
+- Database file is created automatically using SQLite.
+- Resume uploads are stored under:
+	- `placement_portal/static/uploads/resumes/`
+- Max upload size is configured to 5 MB.
+
+## Security Reminder
+
+This project uses a hardcoded Flask secret key and default admin credentials for development convenience. Change them before production deployment.
+
 
 
