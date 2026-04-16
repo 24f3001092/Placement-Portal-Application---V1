@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Edit Company{% endblock %}
+{% block content %}
+<div class="page-form-shell">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0"><i class="bi bi-building me-2"></i>Edit Company</h5>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" novalidate>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="company_name">Company Name</label>
+                        <input id="company_name" type="text" name="company_name" class="form-control" value="{{ company.company_name }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="email">Email</label>
+                        <input id="email" type="email" name="email" class="form-control" value="{{ company.email }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="hr_contact">HR Contact</label>
+                        <input id="hr_contact" type="text" name="hr_contact" class="form-control" value="{{ company.hr_contact or '' }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="website">Website</label>
+                        <input id="website" type="url" name="website" class="form-control" value="{{ company.website or '' }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="industry">Industry</label>
+                        <input id="industry" type="text" name="industry" class="form-control" value="{{ company.industry or '' }}">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="description">Description</label>
+                        <textarea id="description" name="description" class="form-control" rows="4">{{ company.description or '' }}</textarea>
+                    </div>
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                        <a href="{{ url_for('admin.companies') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

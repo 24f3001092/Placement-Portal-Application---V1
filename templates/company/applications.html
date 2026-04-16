@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Applications for {{ drive.job_title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0"><i class="bi bi-people me-2 text-primary"></i>{{ drive.job_title }}</h4>
+        <small class="text-muted">Applications — Deadline: {{ drive.application_deadline.strftime('%d %b %Y') }}</small>
+    </div>
+    <a href="{{ url_for('company.dashboard') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+</div>
+
+{% if drive.eligibility_criteria %}
+<div class="alert alert-light border mb-3">
+    <strong>Eligibility:</strong> {{ drive.eligibility_criteria }}
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-body p-0">
+        {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>Student</th><th>Email</th><th>CGPA</th><th>Department</th><th>Skills</th><th>Applied On</th><th>Resume</th><th>Status</th><th>Update</th></tr></thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td class="fw-semibold">{{ app.student.name }}</td>
+                        <td>{{ app.student.email }}</td>
+                        <td>{{ app.student.cgpa or '-' }}</td>
+                        <td>{{ app.student.department or '-' }}</td>
+                        <td><small>{{ app.student.skills or '-' }}</small></td>
+                        <td>{{ app.application_date.strftime('%d %b %Y') }}</td>
+                        <td>
+                            {% if app.student.resume_filename %}
+                                <a href="{{ url_for('static', filename='uploads/resumes/' + app.student.resume_filename) }}" target="_blank" class="btn btn-sm btn-outline-info" title="View resume" aria-label="View resume">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </a>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-{% if app.status == 'Selected' %}success{% elif app.status == 'Rejected' %}danger{% elif app.status == 'Shortlisted' %}warning text-dark{% else %}primary{% endif %}">
+                                {{ app.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('company.update_status', app_id=app.id) }}" class="d-flex gap-1">
+                                <select name="status" class="form-select form-select-sm status-select" aria-label="Update application status" title="Update application status">
+                                    <option value="Shortlisted" {{ 'selected' if app.status == 'Shortlisted' }}>Shortlisted</option>
+                                    <option value="Selected" {{ 'selected' if app.status == 'Selected' }}>Selected</option>
+                                    <option value="Rejected" {{ 'selected' if app.status == 'Rejected' }}>Rejected</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+            <p>No applications received yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>

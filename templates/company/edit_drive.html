@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Edit Drive{% endblock %}
+{% block content %}
+<div class="page-form-shell">
+    <div class="card shadow-sm">
+        <div class="card-header bg-warning text-dark py-3">
+            <h5 class="mb-0"><i class="bi bi-pencil me-2"></i>Edit Placement Drive</h5>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" novalidate>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="edit_job_title">Job Title <span class="text-danger">*</span></label>
+                        <input id="edit_job_title" type="text" name="job_title" class="form-control" value="{{ drive.job_title }}" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="edit_job_description">Job Description <span class="text-danger">*</span></label>
+                        <textarea id="edit_job_description" name="job_description" class="form-control" rows="4" required>{{ drive.job_description }}</textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="edit_eligibility">Eligibility Criteria</label>
+                        <textarea id="edit_eligibility" name="eligibility_criteria" class="form-control" rows="2">{{ drive.eligibility_criteria or '' }}</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="edit_skills">Required Skills</label>
+                        <input id="edit_skills" type="text" name="required_skills" class="form-control" value="{{ drive.required_skills or '' }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="edit_salary">Salary Range</label>
+                        <input id="edit_salary" type="text" name="salary_range" class="form-control" value="{{ drive.salary_range or '' }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="edit_location">Location</label>
+                        <input id="edit_location" type="text" name="location" class="form-control" value="{{ drive.location or '' }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="edit_deadline">Application Deadline <span class="text-danger">*</span></label>
+                        <input id="edit_deadline" type="date" name="application_deadline" class="form-control" value="{{ drive.application_deadline.strftime('%Y-%m-%d') }}" required>
+                    </div>
+                    <div class="col-12">
+                        <div class="alert alert-warning py-2"><i class="bi bi-exclamation-triangle me-1"></i>Editing will reset the drive status to <strong>Pending</strong> and require re-approval.</div>
+                    </div>
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-warning px-4">Update Drive</button>
+                        <a href="{{ url_for('company.dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

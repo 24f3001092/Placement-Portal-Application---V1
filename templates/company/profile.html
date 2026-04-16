@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Company Profile{% endblock %}
+{% block content %}
+<div class="page-form-md">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0"><i class="bi bi-building me-2"></i>Company Profile</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-4 gap-3">
+                <div class="profile-avatar"><i class="bi bi-building"></i></div>
+                <div>
+                    <h5 class="fw-bold mb-0">{{ company.company_name }}</h5>
+                    <small class="text-muted">{{ company.email }}</small><br>
+                    <span class="badge bg-success">{{ company.approval_status }}</span>
+                </div>
+            </div>
+            <form method="POST" novalidate>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="hr_contact">HR Contact</label>
+                        <input id="hr_contact" type="text" name="hr_contact" class="form-control" value="{{ company.hr_contact or '' }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="industry">Industry</label>
+                        <input id="industry" type="text" name="industry" class="form-control" value="{{ company.industry or '' }}">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="website">Website</label>
+                        <input id="website" type="url" name="website" class="form-control" value="{{ company.website or '' }}">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="description">Description</label>
+                        <textarea id="description" name="description" class="form-control" rows="3">{{ company.description or '' }}</textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Company Registration{% endblock %}
+{% block content %}
+<div class="page-form-auth">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0"><i class="bi bi-building-add me-2"></i>Company Registration</h5>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" novalidate>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="company_name">Company Name <span class="text-danger">*</span></label>
+                        <input id="company_name" type="text" name="company_name" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="company_email">Email <span class="text-danger">*</span></label>
+                        <input id="company_email" type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">HR Contact</label>
+                        <input type="text" name="hr_contact" class="form-control" placeholder="+91 XXXXXXXXXX">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="company_password">Password <span class="text-danger">*</span></label>
+                        <input id="company_password" type="password" name="password" class="form-control" required minlength="6">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="company_confirm_password">Confirm Password <span class="text-danger">*</span></label>
+                        <input id="company_confirm_password" type="password" name="confirm_password" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Website</label>
+                        <input type="url" name="website" class="form-control" placeholder="https://">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Industry</label>
+                        <input type="text" name="industry" class="form-control" placeholder="e.g. IT, Finance">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" for="company_description">Company Description</label>
+                        <textarea id="company_description" name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <div class="alert alert-info py-2"><i class="bi bi-info-circle me-1"></i>After registration, you must wait for <strong>Admin approval</strong> before you can log in.</div>
+                    </div>
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">Register</button>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary">Back to Login</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

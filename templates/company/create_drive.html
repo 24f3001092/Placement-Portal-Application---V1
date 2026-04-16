@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Post Placement Drive{% endblock %}
+{% block content %}
+<div class="page-form-shell">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Post New Placement Drive</h5>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" novalidate>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Job Title <span class="text-danger">*</span></label>
+                        <input type="text" name="job_title" class="form-control" required placeholder="e.g. Software Engineer">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Job Description <span class="text-danger">*</span></label>
+                        <textarea name="job_description" class="form-control" rows="4" required placeholder="Describe the role, responsibilities..."></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Eligibility Criteria</label>
+                        <textarea name="eligibility_criteria" class="form-control" rows="2" placeholder="e.g. B.Tech CSE/ECE, CGPA >= 7.0, No active backlogs"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Required Skills</label>
+                        <input type="text" name="required_skills" class="form-control" placeholder="e.g. Python, React, SQL">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Salary Range (LPA)</label>
+                        <input type="text" name="salary_range" class="form-control" placeholder="e.g. 6-10 LPA">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Location</label>
+                        <input type="text" name="location" class="form-control" placeholder="e.g. Bangalore, Remote">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold" for="create_deadline">Application Deadline <span class="text-danger">*</span></label>
+                        <input id="create_deadline" type="date" name="application_deadline" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <div class="alert alert-info py-2"><i class="bi bi-info-circle me-1"></i>Drive will be visible to students only after <strong>Admin approval</strong>.</div>
+                    </div>
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">Submit Drive</button>
+                        <a href="{{ url_for('company.dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

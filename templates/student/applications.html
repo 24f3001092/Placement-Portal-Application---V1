@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}My Applications{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-file-earmark-check me-2 text-primary"></i>My Applications & History</h4>
+</div>
+
+{% set status_counts = {'Applied': 0, 'Shortlisted': 0, 'Selected': 0, 'Rejected': 0} %}
+{% for app in applications %}
+    {% if app.status == 'Applied' %}{% set _ = status_counts.update({'Applied': status_counts['Applied'] + 1}) %}
+    {% elif app.status == 'Shortlisted' %}{% set _ = status_counts.update({'Shortlisted': status_counts['Shortlisted'] + 1}) %}
+    {% elif app.status == 'Selected' %}{% set _ = status_counts.update({'Selected': status_counts['Selected'] + 1}) %}
+    {% elif app.status == 'Rejected' %}{% set _ = status_counts.update({'Rejected': status_counts['Rejected'] + 1}) %}
+    {% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-sm-3">
+        <div class="card text-center p-3 border-primary">
+            <div class="fs-4 fw-bold text-primary">{{ applications|length }}</div>
+            <small class="text-muted">Total Applied</small>
+        </div>
+    </div>
+    <div class="col-6 col-sm-3">
+        <div class="card text-center p-3 border-warning">
+            <div class="fs-4 fw-bold text-warning">{{ status_counts['Shortlisted'] }}</div>
+            <small class="text-muted">Shortlisted</small>
+        </div>
+    </div>
+    <div class="col-6 col-sm-3">
+        <div class="card text-center p-3 border-success">
+            <div class="fs-4 fw-bold text-success">{{ status_counts['Selected'] }}</div>
+            <small class="text-muted">Selected</small>
+        </div>
+    </div>
+    <div class="col-6 col-sm-3">
+        <div class="card text-center p-3 border-danger">
+            <div class="fs-4 fw-bold text-danger">{{ status_counts['Rejected'] }}</div>
+            <small class="text-muted">Rejected</small>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>#</th><th>Job Title</th><th>Company</th><th>Location</th><th>Applied On</th><th>Status</th></tr></thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td class="text-muted">{{ loop.index }}</td>
+                        <td class="fw-semibold">{{ app.drive.job_title }}</td>
+                        <td>{{ app.drive.company.company_name }}</td>
+                        <td>{{ app.drive.location or '-' }}</td>
+                        <td>{{ app.application_date.strftime('%d %b %Y') }}</td>
+                        <td>
+                            <span class="badge bg-{% if app.status == 'Selected' %}success{% elif app.status == 'Rejected' %}danger{% elif app.status == 'Shortlisted' %}warning text-dark{% else %}primary{% endif %}">
+                                {% if app.status == 'Selected' %}<i class="bi bi-trophy-fill me-1"></i>{% elif app.status == 'Shortlisted' %}<i class="bi bi-star-fill me-1"></i>{% endif %}
+                                {{ app.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-file-earmark-x fs-1 d-block mb-2"></i>
+            <p>You haven't applied to any drives yet.</p>
+            <a href="{{ url_for('student.drives') }}" class="btn btn-primary">Browse Drives</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

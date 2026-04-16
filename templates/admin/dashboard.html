@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0"><i class="bi bi-speedometer2 me-2 text-primary"></i>Admin Dashboard</h4>
+        <small class="text-muted">Institute Placement Cell</small>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card bg-primary text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div><div class="fs-4 fw-bold">{{ total_students }}</div><div class="small opacity-75">Total Students</div></div>
+                <i class="bi bi-people fs-2 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card bg-success text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div><div class="fs-4 fw-bold">{{ total_companies }}</div><div class="small opacity-75">Total Companies</div></div>
+                <i class="bi bi-building fs-2 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card bg-warning text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div><div class="fs-4 fw-bold">{{ total_drives }}</div><div class="small opacity-75">Total Placement Drives</div></div>
+                <i class="bi bi-briefcase fs-2 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card bg-info text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div><div class="fs-4 fw-bold">{{ total_applications }}</div><div class="small opacity-75">Total Applications</div></div>
+                <i class="bi bi-file-earmark-text fs-2 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if pending_companies > 0 or pending_drives > 0 %}
+<div class="row g-3 mb-4">
+    {% if pending_companies > 0 %}
+    <div class="col-md-6">
+        <div class="alert alert-warning d-flex align-items-center justify-content-between mb-0">
+            <span><i class="bi bi-exclamation-triangle me-2"></i><strong>{{ pending_companies }}</strong> company registration(s) pending approval</span>
+            <a href="{{ url_for('admin.companies') }}?filter=pending" class="btn btn-sm btn-warning">Review</a>
+        </div>
+    </div>
+    {% endif %}
+    {% if pending_drives > 0 %}
+    <div class="col-md-6">
+        <div class="alert alert-info d-flex align-items-center justify-content-between mb-0">
+            <span><i class="bi bi-info-circle me-2"></i><strong>{{ pending_drives }}</strong> placement drive(s) pending approval</span>
+            <a href="{{ url_for('admin.drives') }}" class="btn btn-sm btn-info">Review</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-semibold"><i class="bi bi-clock-history me-2"></i>Recent Applications</span>
+        <a href="{{ url_for('admin.applications') }}" class="btn btn-sm btn-outline-primary">View All</a>
+    </div>
+    <div class="card-body p-0">
+        {% if recent_applications %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>Student</th><th>Drive / Company</th><th>Date</th><th>Status</th></tr></thead>
+                <tbody>
+                    {% for app in recent_applications %}
+                    <tr>
+                        <td>{{ app.student.name }}</td>
+                        <td>{{ app.drive.job_title }} <span class="text-muted">@ {{ app.drive.company.company_name }}</span></td>
+                        <td>{{ app.application_date.strftime('%d %b %Y') }}</td>
+                        <td><span class="badge bg-{% if app.status == 'Selected' %}success{% elif app.status == 'Rejected' %}danger{% elif app.status == 'Shortlisted' %}warning{% else %}primary{% endif %}">{{ app.status }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-4 text-muted"><i class="bi bi-inbox fs-2 d-block mb-2"></i>No applications yet.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
